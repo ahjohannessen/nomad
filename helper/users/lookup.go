@@ -138,7 +138,7 @@ func SocketFileFor(logger hclog.Logger, path, username string) (net.Listener, er
 		logger.Warn("error removing socket", "path", path, "error", err)
 	}
 
-	udsln, err := net.Listen("unix", path)
+	udsln, err := ListenTaskSocket(path)
 	if err != nil {
 		return nil, err
 	}

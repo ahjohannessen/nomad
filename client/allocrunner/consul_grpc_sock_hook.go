@@ -22,6 +22,7 @@ import (
 	"github.com/hashicorp/nomad/client/allocdir"
 	"github.com/hashicorp/nomad/client/allocrunner/interfaces"
 	"github.com/hashicorp/nomad/client/taskenv"
+	"github.com/hashicorp/nomad/helper/users"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/hashicorp/nomad/nomad/structs/config"
 )
@@ -285,7 +286,7 @@ func (p *grpcSocketProxy) run() error {
 		}
 	}
 
-	listener, err := net.Listen("unix", hostGRPCSocketPath)
+	listener, err := users.ListenTaskSocket(hostGRPCSocketPath)
 	if err != nil {
 		return fmt.Errorf("unable to create unix socket for Consul gRPC endpoint: %v", err)
 	}

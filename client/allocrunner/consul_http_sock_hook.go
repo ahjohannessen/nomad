@@ -7,7 +7,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"net"
 	"os"
 	"path/filepath"
 	"strings"
@@ -20,6 +19,7 @@ import (
 	"github.com/hashicorp/nomad/client/allocdir"
 	"github.com/hashicorp/nomad/client/allocrunner/interfaces"
 	"github.com/hashicorp/nomad/client/taskenv"
+	"github.com/hashicorp/nomad/helper/users"
 	"github.com/hashicorp/nomad/nomad/structs"
 	"github.com/hashicorp/nomad/nomad/structs/config"
 )
@@ -223,7 +223,7 @@ func (p *httpSocketProxy) run(alloc *structs.Allocation) error {
 		return err
 	}
 
-	listener, err := net.Listen("unix", hostHTTPSockPath)
+	listener, err := users.ListenTaskSocket(hostHTTPSockPath)
 	if err != nil {
 		return fmt.Errorf("unable to create unix socket for Consul HTTP endpoint: %w", err)
 	}
